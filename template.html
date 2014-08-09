@@ -42,25 +42,20 @@ URL: https://code.google.com/p/io-2012-slides
     </hgroup>
   </slide>
 
-  <slide>
-    <hgroup>
-      <h2>Slide with Bullets</h2>
-    </hgroup>
-    <article>
-      <ul>
-        <li>Titles are formatted as Open Sans with bold applied and font size is set at 45</li>
-        <li>Title capitalization is title case
-          <ul>
-            <li>Subtitle capitalization is title case</li>
-          </ul>
-        </li>
-        <li>Subtitle capitalization is title case</li>
-        <li>Titles and subtitles should never have a period at the end</li>
-      </ul>
-    </article>
-  </slide>
+<slide>
+  <hgroup>
+    <h2>The challenge for maintainable browser tests</h2>
+  </hgroup>
+  <article>
+    <ul class="build">
+      <li>Timing issues</li>
+      <li>Different browsers</li>
+      <li>Database integration</li>
+    </ul>
+  </article>
+</slide>
 
-  <slide>
+  <slide hidden>
     <hgroup>
       <h2>Slide with Bullets that Build</h2>
       <h3>Subtitle Placeholder</h3>
@@ -84,7 +79,7 @@ URL: https://code.google.com/p/io-2012-slides
     </article>
   </slide>
 
-  <slide>
+  <slide hidden>
     <hgroup>
       <h2>Slide with (Smaller Font)</h2>
     </hgroup>
@@ -96,63 +91,143 @@ URL: https://code.google.com/p/io-2012-slides
     </article>
   </slide>
 
-  <slide hidden>
-    Hidden slides are left out of the presentation.
-  </slide>
-
   <slide>
     <hgroup>
-      <h2>Code Slide (with Subtitle Placeholder)</h2>
-      <h3>Subtitle Placeholder</h3>
+      <h2>Groovy</h2>
+      <h3>A dynamic language on the JVM</h3>
     </hgroup>
     <article>
-      <p>Press 'h' to highlight important sections of code (wrapped in <code>&lt;b&gt;</code>).</p>
-      <pre class="prettyprint" data-lang="javascript">
-&lt;script type='text/javascript'&gt;
-  // Say hello world until the user starts questioning
-  // the meaningfulness of their existence.
-  function helloWorld(world) {
-    <b>for (var i = 42; --i &gt;= 0;) {
-      alert('Hello ' + String(world));
-    }</b>
-  }
-&lt;/script&gt;
-</pre>
+      <pre class="prettyprint" data-lang="groovy">
+        def hello(){
+          ["hello", "world"].each {
+            print it
+          }
+        }
+      </pre>
     </article>
   </slide>
 
   <slide>
     <hgroup>
-      <h2>Code Slide (Smaller Font)</h2>
+      <h2>Spock</h2>
+      <h3>A cool testing framework written in groovy</h3>
+    </hgroup>
+    <article>
+      <pre class="prettyprint" data-lang="groovy">
+        def "a sample test case"(){
+          given:
+          def patient = new Patient()
+
+          when:
+          patient.intubate()
+
+          then:
+          patient.intubated
+        }
+      </pre>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Geb</h2>
+      <h3>Selenium for the groovy folks</h3>
+    </hgroup>
+    <article>
+      <pre class="prettyprint" data-lang="groovy">
+        def "user is able to login with correct credentials"(){
+          given:
+          go "/login"
+
+          when:
+          $("loginForm").user = "thilko"
+          $("loginForm").password = "admin"
+          $("#loginButton").click()
+
+          then:
+          driver.currentUrl == "/home"
+        }
+      </pre>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Page objects</h2>
     </hgroup>
     <article class="smaller">
-      <pre class="prettyprint" data-lang="javascript">
-// Say hello world until the user starts questioning
-// the meaningfulness of their existence.
-function helloWorld(world) {
-  for (var i = 42; --i &gt;= 0;) {
-    alert('Hello ' + String(world));
-  }
-}
-</pre>
-<pre class="prettyprint" data-lang="css">
-&lt;style&gt;
-  p { color: pink }
-  b { color: blue }
-&lt;/style&gt;
-</pre>
-<pre class="prettyprint" data-lang="html">
-&lt;!DOCTYPE html>
-&lt;html>
-&lt;head>
-  &lt;title>My Awesome Page&lt;/title>
-&lt;/head>
-&lt;body>
-  &lt;p&gt;Hello world&lt;/p&gt;
-&lt;body>
-&lt;/html>
-</pre>
+      <pre class="prettyprint" data-lang="groovy">
+        class LoginPage extends Page {
+          static url = "login"
+          static content = {
+            // some content here
+          }
+          static at = {
+            $("#page_id").value() == "login"
+          }
+        }
+      </pre>
+
+      <pre class="prettyprint" data-lang="groovy">
+        def "user is able to login with correct credentials"(){
+          given:
+          to LoginPage
+          at LoginPage
+
+          when:
+          user = "thilko"
+          password = "admin"
+
+          then:
+          at HomePage
+        }
+      </pre>
+
     </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Next level: Setting up the database</h2>
+    </hgroup>
+    <article>
+      <ul class="build">
+        <li>SQL?</li>
+        <li>XML?</li>
+        <li>Boring!</li>
+      </ul>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>What about a dsl? Use your power, luke!</h2>
+    </hgroup>
+    <article>
+      <pre class="prettyprint" data-lang="groovy">
+        @Hospital("""
+          patients {
+            patient(firstName: "Hauk", lastName: "Aabel")
+            patient(firstName: "Gunnar", lastName: "Haugan")
+            patient(firstName: "Egil", lastName: "Hegerberg")
+          }
+        """)
+        class PatientSpec extends GebReportingSpec {
+          def "show all existing patients"(){ }
+
+          def "show all emergency patients"(){ }
+
+          def "create a patient"(){ }
+        }
+      </pre>
+    </article>
+  </slide>
+
+  <slide class="fill nobackground" style="background-image: url(images/sky.jpg)">
+    <hgroup>
+      <h2 class="white">Get ready for action!</h2>
+    </hgroup>
+    <footer class="source white">www.flickr.com/photos/25797459@N06/5438799763/</footer>
   </slide>
 
   <slide>
@@ -395,18 +470,6 @@ function helloWorld(world) {
   <slide class="backdrop"></slide>
 
 </slides>
-
-<script>
-var _gaq = _gaq || [];
-_gaq.push(['_setAccount', 'UA-XXXXXXXX-1']);
-_gaq.push(['_trackPageview']);
-
-(function() {
-  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-})();
-</script>
 
 <!--[if IE]>
   <script src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js"></script>

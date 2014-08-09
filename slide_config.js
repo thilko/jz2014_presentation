@@ -1,12 +1,7 @@
 var SLIDE_CONFIG = {
   // Slide settings
   settings: {
-    title: 'Title Goes Here<br>Up To Two Lines',
-    subtitle: 'Subtitle Goes Here',
-    //eventInfo: {
-    //  title: 'Google I/O',
-    //  date: '6/x/2013'
-    //},
+    title: 'Get a power up for your browser tests with geb and groovy',
     useBuilds: true, // Default: true. False will turn off slide animation builds.
     usePrettify: true, // Default: true
     enableSlideAreas: true, // Default: true. False turns off the click areas on either slide of the slides.
@@ -22,12 +17,11 @@ var SLIDE_CONFIG = {
 
   // Author information
   presenters: [{
-    name: 'Firstname Lastname',
-    company: 'Job Title<br>Google',
-    gplus: 'http://plus.google.com/1234567890',
-    twitter: '@yourhandle',
-    www: 'http://www.you.com',
-    github: 'http://github.com/you'
+    name: 'Thilko Richter',
+    company: 'Software Developer<br>Draeger Medical GmbH',
+    twitter: '@thilko',
+    www: 'http://www.thilko.com',
+    github: 'http://github.com/thilko'
   }/*, {
     name: 'Second Name',
     company: 'Job Title, Google',
@@ -37,4 +31,3 @@ var SLIDE_CONFIG = {
     github: 'http://github.com/you'
   }*/]
 };
-
