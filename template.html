@@ -27,7 +27,6 @@ URL: https://code.google.com/p/io-2012-slides
 <slides class="layout-widescreen">
 
   <slide class="title-slide segue nobackground">
-    <aside class="gdbar"><img src="images/google_developers_icon_128.png"></aside>
     <!-- The content of this hgroup is replaced programmatically through the slide_config.json. -->
     <hgroup class="auto-fadein">
       <h1 data-config-title><!-- populated from slide_config.json --></h1>
@@ -73,15 +72,7 @@ URL: https://code.google.com/p/io-2012-slides
 <slide>
   <hgroup class="auto-fadein">
     <div class="centered" style="margin-top:10em">
-      <h2 class="black">and finally...</h2>
-    </div>
-  </hgroup>
-</slide>
-
-<slide>
-  <hgroup class="auto-fadein">
-    <div class="centered" style="margin-top:10em">
-      <h2 class="black">we need a running system with test data!</h2>
+      <h2 class="black">and a running system with test data!</h2>
     </div>
   </hgroup>
 </slide>
@@ -95,42 +86,26 @@ URL: https://code.google.com/p/io-2012-slides
   </hgroup>
 </slide>
 
-  <slide>
-    <hgroup>
-      <h2>Groovy</h2>
-      <h3>A dynamic language on the JVM</h3>
-    </hgroup>
-    <article>
-      <pre class="prettyprint" data-lang="groovy">
-        def hello(){
-          ["hello", "world"].each {
-            print it
-          }
-        }
-      </pre>
-    </article>
-  </slide>
+<slide>
+  <hgroup>
+    <h2>Spock</h2>
+    <h3>A cool testing framework written in groovy</h3>
+  </hgroup>
+  <article>
+    <pre class="prettyprint" data-lang="groovy">
+      def "a sample test case"(){
+        given:
+        def patient = new Patient()
 
-  <slide>
-    <hgroup>
-      <h2>Spock</h2>
-      <h3>A cool testing framework written in groovy</h3>
-    </hgroup>
-    <article>
-      <pre class="prettyprint" data-lang="groovy">
-        def "a sample test case"(){
-          given:
-          def patient = new Patient()
+        when:
+        patient.intubate()
 
-          when:
-          patient.intubate()
-
-          then:
-          patient.intubated
-        }
-      </pre>
-    </article>
-  </slide>
+        then:
+        patient.intubated
+      }
+    </pre>
+  </article>
+</slide>
 
   <slide>
     <hgroup>
@@ -214,27 +189,51 @@ URL: https://code.google.com/p/io-2012-slides
 
   <slide>
     <hgroup>
-      <h2>Support for calling javascript</h2>
+      <h2>Get the rest out of it with extensions</h2>
     </hgroup>
     <article>
-      <pre class="prettyprint" data-lang="html">
-        &lt;html&gt;
-          &lt;script type="text/javascript"&gt;
-              function add(a,b) {
-                  return a + b;
-              }
-          &lt;/script&gt;
-        &lt;body&gt;
-        &lt;/body&gt;
-        &lt;/html&gt;
-      </pre>
-
       <pre class="prettyprint" data-lang="groovy">
-        when:
-        def result = js.add(40, 2)
+        @PrintDuration
+        def "start a surgery"(){
+          // intentionally left blank...
+        }
 
-        then:
-        result = 42
+        @Stepwise
+        class RunInOrderSpec extends Specification {
+          def "I run first"()  { }
+          def "I run second"() { }
+        }
+
+        @IgnoreIf({ env.integrationTest })
+        def "I´m not an integration test"() { }
+      </pre>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Groovy</h2>
+      <h3>A dynamic language on the JVM</h3>
+    </hgroup>
+    <article class="" style="margin-top:0em">
+      <pre class="prettyprint" data-lang="groovy">
+        class Patient {
+          String firstName
+          String lastName
+          Diagnosis[] diagnosis
+        }
+
+        class Diagnosis{
+          String name
+          String code
+        }
+      </pre>
+      <pre class="prettyprint" data-lang="groovy">
+        def builder = new ObjectGraphBuilder()
+        builder.patient(firstName:"John",lastName:"Doe"){
+          diagnosis(name:"Flu", "FLU")
+          diagnosis(name:"sdsd", "DHDG")
+        }
       </pre>
     </article>
   </slide>
@@ -246,21 +245,6 @@ URL: https://code.google.com/p/io-2012-slides
       </div>
     </hgroup>
   </slide>
-  
-  <slide>
-    <hgroup>
-      <h2>XML?</h2>
-    </hgroup>
-    <article>
-      <pre class="prettyprint" data-lang="xml">
-        &lt;dataset&gt;
-          &lt;PERSON NAME="Bob" LAST_NAME="Doe" AGE="18"/&gt;
-          &lt;PERSON NAME="Alice" LAST_NAME="Foo" AGE="23"/&gt;
-          &lt;PERSON NAME="Charlie" LAST_NAME="Brown" AGE="42"/&gt;
-        &lt;/dataset&gt;
-      </pre>
-    </article>
-  </slide>
 
   <slide>
     <hgroup>
@@ -268,24 +252,43 @@ URL: https://code.google.com/p/io-2012-slides
     </hgroup>
     <article>
       <pre class="prettyprint" data-lang="sql">
-        insert into person values("Bob", "Doe", 18);
-        insert into person values("Alice", "Foo", 23);
-        insert into person values("Charlie", "Brown", 42);
+        insert into patient values(1, "Bob", "Doe", 18);
+        insert into patient values(2, "Alice", "Foo", 23);
+        insert into patient values(3, "Charlie", "Brown", 42);
+
+        insert into diagnosis(1, 1, 'flu')
+        insert into diagnosis(2, 1, 'asdasdad')
+        insert into diagnosis(3, 2, 'sdadada')
+        insert into diagnosis(4, 3, 'broken leg')
+        insert into diagnosis(4, 3, 'asdkhadhdh')
       </pre>
     </article>
   </slide>
 
   <slide>
-    <hgroup class="auto-fadein">
-      <div class="centered" style="margin-top:10em">
-        <h2 class="black">Boring...</h2>
-      </div>
+    <hgroup>
+      <h2>XML?</h2>
     </hgroup>
+    <article>
+      <pre class="prettyprint" data-lang="xml">
+        &lt;dataset&gt;
+          &lt;patient name="Bob" last_name="Doe" age="18" diagnosis_id="1"/&gt;
+          &lt;patient name="Alice" last_name="Foo" age="23" diagnosis_id="2"/&gt;
+          &lt;patient name="Charlie" last_name="Brown" age="42" diagnosis_id="3"/&gt;
+
+          &lt;diagnosis name="flu"/&gt;
+          &lt;diagnosis name="flu"/&gt;
+          &lt;diagnosis name="flu"/&gt;
+          &lt;diagnosis name="flu"/&gt;
+          &lt;diagnosis name="flu"/&gt;
+        &lt;/dataset&gt;
+      </pre>
+    </article>
   </slide>
 
   <slide>
     <hgroup>
-      <h2>what about a dsl? Use your power, luke!</h2>
+      <h2>... what about a dsl? Use your power, luke!</h2>
     </hgroup>
     <article>
       <pre class="prettyprint" data-lang="groovy">
@@ -307,35 +310,20 @@ URL: https://code.google.com/p/io-2012-slides
     </article>
   </slide>
 
-  <slide class="fill nobackground" style="background-image: url(images/sky.jpg)">
-    <hgroup>
-      <h2 class="white">Geb tests in action!</h2>
-    </hgroup>
-  </slide>
-
-  <slide>
-    <hgroup class="auto-fadein">
-      <div class="centered" style="margin-top:10em">
-        <h2 class="black">My last minute...</h2>
-      </div>
-    </hgroup>
-  </slide>
+<slide>
+  <hgroup class="auto-fadein">
+    <div class="centered" style="margin-top:10em">
+      <h2 class="black">See it in action!</h2>
+    </div>
+  </hgroup>
+</slide>
 
   <slide class="thank-you-slide segue nobackground">
-    <aside class="gdbar right"><img src="images/google_developers_icon_128.png"></aside>
     <article class="flexbox vleft auto-fadein">
-      <h2>&lt;Thank You!&gt;</h2>
-      <p>Important contact information goes here.</p>
+      <h2>Thx!</h2>
     </article>
     <p class="auto-fadein" data-config-contact>
-      <!-- populated from slide_config.json -->
     </p>
-  </slide>
-
-  <slide class="logoslide dark nobackground">
-    <article class="flexbox vcenter">
-      <span><img src="images/google_developers_logo_white.png"></span>
-    </article>
   </slide>
 
   <slide class="backdrop"></slide>
