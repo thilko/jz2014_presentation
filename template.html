@@ -45,26 +45,26 @@ URL: https://code.google.com/p/io-2012-slides
 </slide>
 
 
-<slide>
+<slide class="fill nobackground" style="background-image: url(images/slow.jpg)">
   <hgroup class="auto-fadein">
-    <div class="centered" style="margin-top:10em">
-      <h2 class="black">They are slow...</h2>
+    <div class="centered" style="margin-top:1em">
+      <h2 class="white">They are slow...</h2>
     </div>
   </hgroup>
 </slide>
 
-<slide>
+<slide class="fill nobackground" style="background-image: url(images/time.jpg)">
   <hgroup class="auto-fadein">
-    <div class="centered" style="margin-top:10em">
-      <h2 class="black">race conditions occur...</h2>
+    <div class="centered" style="margin-top:1em">
+      <h2 class="white">we have timing issues...</h2>
     </div>
   </hgroup>
 </slide>
 
-<slide>
+<slide class="fill nobackground" style="background-image: url(images/browsers.jpg)">
   <hgroup class="auto-fadein">
-    <div class="centered" style="margin-top:10em">
-      <h2 class="black">we need to support different browsers...</h2>
+    <div class="centered" style="margin-top:0.5em">
+      <h2 class="white">we need to support different browsers...</h2>
     </div>
   </hgroup>
 </slide>
@@ -78,10 +78,10 @@ URL: https://code.google.com/p/io-2012-slides
 </slide>
 
 
-<slide>
+<slide class="fill nobackground" style="background-image: url(images/weapons.jpg)">
   <hgroup class="auto-fadein">
-    <div class="centered" style="margin-top:10em">
-      <h2 class="black">Choose your weapons!</h2>
+    <div class="centered" style="margin-top:0.5em">
+      <h2 class="white">Choose your weapons!</h2>
     </div>
   </hgroup>
 </slide>
@@ -125,6 +125,7 @@ URL: https://code.google.com/p/io-2012-slides
 
           then:
           driver.currentUrl == "/home"
+          waitFor{ asyncData.visible }
         }
       </pre>
     </article>
@@ -193,19 +194,14 @@ URL: https://code.google.com/p/io-2012-slides
     </hgroup>
     <article>
       <pre class="prettyprint" data-lang="groovy">
-        @PrintDuration
-        def "start a surgery"(){
-          // intentionally left blank...
-        }
-
         @Stepwise
         class RunInOrderSpec extends Specification {
-          def "I run first"()  { }
-          def "I run second"() { }
+          def "select all patients by name"()  { }
+          def "select all patients by age"() { }
         }
 
         @IgnoreIf({ env.integrationTest })
-        def "I´m not an integration test"() { }
+        def "selecting all patients by their name works"() { }
       </pre>
     </article>
   </slide>
@@ -257,10 +253,10 @@ URL: https://code.google.com/p/io-2012-slides
         insert into patient values(3, "Charlie", "Brown", 42);
 
         insert into diagnosis(1, 1, 'flu')
-        insert into diagnosis(2, 1, 'asdasdad')
-        insert into diagnosis(3, 2, 'sdadada')
-        insert into diagnosis(4, 3, 'broken leg')
-        insert into diagnosis(4, 3, 'asdkhadhdh')
+        insert into diagnosis(2, 1, 'liver cirrhosis')
+        insert into diagnosis(3, 2, 'cough')
+        insert into diagnosis(4, 3, 'callaus')
+        insert into diagnosis(4, 3, 'headaches')
       </pre>
     </article>
   </slide>
@@ -273,14 +269,16 @@ URL: https://code.google.com/p/io-2012-slides
       <pre class="prettyprint" data-lang="xml">
         &lt;dataset&gt;
           &lt;patient name="Bob" last_name="Doe" age="18" diagnosis_id="1"/&gt;
-          &lt;patient name="Alice" last_name="Foo" age="23" diagnosis_id="2"/&gt;
-          &lt;patient name="Charlie" last_name="Brown" age="42" diagnosis_id="3"/&gt;
+          &lt;patient name="Marley" last_name="Bob" age="42" diagnosis_id="2"/&gt;
+          &lt;patient name="Alice" last_name="Foo" age="23" diagnosis_id="3"/&gt;
+          &lt;patient name="Charlie" last_name="Brown" age="42" diagnosis_id="4"/&gt;
+          &lt;patient name="Simpson" last_name="Homer" age="42" diagnosis_id="5"/&gt;
 
-          &lt;diagnosis name="flu"/&gt;
-          &lt;diagnosis name="flu"/&gt;
-          &lt;diagnosis name="flu"/&gt;
-          &lt;diagnosis name="flu"/&gt;
-          &lt;diagnosis name="flu"/&gt;
+          &lt;diagnosis id="1" name="flu"/&gt;
+          &lt;diagnosis id="2" name="liver cirrhosis"/&gt;
+          &lt;diagnosis id="3" name="cough"/&gt;
+          &lt;diagnosis id="4" name="callaus"/&gt;
+          &lt;diagnosis id="5" name="headaches"/&gt;
         &lt;/dataset&gt;
       </pre>
     </article>
@@ -310,10 +308,10 @@ URL: https://code.google.com/p/io-2012-slides
     </article>
   </slide>
 
-<slide>
+<slide class="fill nobackground" style="background-image: url(images/action.jpg)">
   <hgroup class="auto-fadein">
-    <div class="centered" style="margin-top:10em">
-      <h2 class="black">See it in action!</h2>
+    <div class="centered" style="margin-top:22em">
+      <h2 class="black">Action!</h2>
     </div>
   </hgroup>
 </slide>
