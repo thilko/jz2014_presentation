@@ -124,8 +124,10 @@ URL: https://code.google.com/p/io-2012-slides
           $("#loginButton").click()
 
           then:
-          driver.currentUrl == "/home"
-          waitFor{ asyncData.visible }
+          $("#currentSurgeries").displayed
+
+          // support for asynchronous elements
+          waitFor{ patientsDiagnosis.displayed }
         }
       </pre>
     </article>
@@ -160,12 +162,14 @@ URL: https://code.google.com/p/io-2012-slides
     <article class="smaller">
       <pre class="prettyprint" data-lang="groovy">
         class LoginPage extends Page {
-          static url = "login"
+          static at = { $("#page_id").value() == "login" }
           static content = {
-            // some content here
+            loginButton(wait: true, required:false){ $("#loginButton")}
           }
-          static at = {
-            $("#page_id").value() == "login"
+
+          void loginWith(username, password) {
+              userField.value(username)
+              passwordField.value(password)
           }
         }
       </pre>
@@ -177,8 +181,7 @@ URL: https://code.google.com/p/io-2012-slides
           at LoginPage
 
           when:
-          user = "thilko"
-          password = "admin"
+          loginWith("thilko", "superSecret")
 
           then:
           at HomePage
@@ -221,14 +224,14 @@ URL: https://code.google.com/p/io-2012-slides
 
         class Diagnosis{
           String name
-          String code
+          String icd10Code
         }
       </pre>
       <pre class="prettyprint" data-lang="groovy">
         def builder = new ObjectGraphBuilder()
         builder.patient(firstName:"John",lastName:"Doe"){
-          diagnosis(name:"Flu", "FLU")
-          diagnosis(name:"sdsd", "DHDG")
+          diagnosis(name:"Flatulency", icd10Code: "R14")
+          diagnosis(name:"Heartburn", icd10Code: "R12")
         }
       </pre>
     </article>
