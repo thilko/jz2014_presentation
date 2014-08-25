@@ -290,13 +290,13 @@ URL: https://code.google.com/p/io-2012-slides
     </hgroup>
     <article>
       <pre class="prettyprint" data-lang="groovy">
-        @Hospital("""
+        <b>@Hospital("""
           patients {
             patient(firstName: "Hauk", lastName: "Aabel")
             patient(firstName: "Gunnar", lastName: "Haugan")
             patient(firstName: "Egil", lastName: "Hegerberg")
           }
-        """)
+        """)</b>
         class PatientSpec extends GebReportingSpec {
           def "show all existing patients"(){ }
 

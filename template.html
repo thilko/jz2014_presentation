@@ -39,7 +39,7 @@ URL: https://code.google.com/p/io-2012-slides
 <slide>
   <hgroup class="auto-fadein">
     <div class="centered" style="margin-top:10em">
-      <h2 class="black">The challenge for maintainable browser tests...</h2>
+      <h2 class="black">The challenge of maintainable browser tests...</h2>
     </div>
   </hgroup>
 </slide>
@@ -69,7 +69,7 @@ URL: https://code.google.com/p/io-2012-slides
   </hgroup>
 </slide>
 
-<slide>
+<slide class="fill nobackground" style="background-image: url(images/testdata.jpg)">
   <hgroup class="auto-fadein">
     <div class="centered" style="margin-top:10em">
       <h2 class="black">and a running system with test data!</h2>
@@ -93,16 +93,37 @@ URL: https://code.google.com/p/io-2012-slides
   </hgroup>
   <article>
     <pre class="prettyprint" data-lang="groovy">
-      def "a sample test case"(){
-        given:
-        def patient = new Patient()
+      class PatientSpec extends Specification {
+        def "a patient can be intubated"(){
+          given:
+          def patient = new Patient()
 
-        when:
-        patient.intubate()
+          when:
+          patient.intubate()
 
-        then:
-        patient.intubated
+          then:
+          patient.intubated
+          patient.numberOfIntubations == 1
+        }
       }
+    </pre>
+  </article>
+</slide>
+
+<slide>
+  <hgroup>
+    <h2>Define custom spock extensions</h2>
+  </hgroup>
+  <article>
+    <pre class="prettyprint" data-lang="groovy">
+      @Stepwise
+      class RunInOrderSpec extends Specification {
+        def "select all patients by name"()  { }
+        def "select all patients by age"() { }
+      }
+
+      @IgnoreIf({ env.integrationTest })
+      def "selecting all patients by their name works"() { }
     </pre>
   </article>
 </slide>
@@ -135,86 +156,10 @@ URL: https://code.google.com/p/io-2012-slides
 
   <slide>
     <hgroup>
-      <h2>Fancy content interaction</h2>
-    </hgroup>
-    <article>
-      <pre class="prettyprint" data-lang="groovy">
-        // accessing a form
-        $("form").ame = "John"
-
-        // file upload
-        $("form").csvFile = "/path/to/my/file.csv"
-
-        // complex interactions
-        interact {
-          clickAndHold($('#element'))
-          moveByOffset(400, -150)
-          release()
-        }
-      </pre>
-    </article>
-  </slide>
-
-  <slide>
-    <hgroup>
-      <h2>Page objects</h2>
-    </hgroup>
-    <article class="smaller">
-      <pre class="prettyprint" data-lang="groovy">
-        class LoginPage extends Page {
-          static at = { $("#page_id").value() == "login" }
-          static content = {
-            loginButton(wait: true, required:false){ $("#loginButton")}
-          }
-
-          void loginWith(username, password) {
-              userField.value(username)
-              passwordField.value(password)
-          }
-        }
-      </pre>
-
-      <pre class="prettyprint" data-lang="groovy">
-        def "user is able to login with correct credentials"(){
-          given:
-          to LoginPage
-          at LoginPage
-
-          when:
-          loginWith("thilko", "superSecret")
-
-          then:
-          at HomePage
-        }
-      </pre>
-
-    </article>
-  </slide>
-
-  <slide>
-    <hgroup>
-      <h2>Get the rest out of it with extensions</h2>
-    </hgroup>
-    <article>
-      <pre class="prettyprint" data-lang="groovy">
-        @Stepwise
-        class RunInOrderSpec extends Specification {
-          def "select all patients by name"()  { }
-          def "select all patients by age"() { }
-        }
-
-        @IgnoreIf({ env.integrationTest })
-        def "selecting all patients by their name works"() { }
-      </pre>
-    </article>
-  </slide>
-
-  <slide>
-    <hgroup>
       <h2>Groovy</h2>
       <h3>A dynamic language on the JVM</h3>
     </hgroup>
-    <article class="" style="margin-top:0em">
+    <article class="" style="margin-top:2em">
       <pre class="prettyprint" data-lang="groovy">
         class Patient {
           String firstName
@@ -227,12 +172,23 @@ URL: https://code.google.com/p/io-2012-slides
           String icd10Code
         }
       </pre>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Build object graphs...</h2>
+    </hgroup>
+    <article class="" style="margin-top:2em">
       <pre class="prettyprint" data-lang="groovy">
         def builder = new ObjectGraphBuilder()
-        builder.patient(firstName:"John",lastName:"Doe"){
+        def patient = builder.patient(firstName:"John",lastName:"Doe"){
           diagnosis(name:"Flatulency", icd10Code: "R14")
           diagnosis(name:"Heartburn", icd10Code: "R12")
         }
+
+        assert patient.firstName == "John"
+        assert patient.diagnosis.size() == 2
       </pre>
     </article>
   </slide>
@@ -240,7 +196,7 @@ URL: https://code.google.com/p/io-2012-slides
   <slide>
     <hgroup class="auto-fadein">
       <div class="centered" style="margin-top:10em">
-        <h2 class="black">And how to setup the database?</h2>
+        <h2 class="black">and how to setup the database?</h2>
       </div>
     </hgroup>
   </slide>
@@ -289,17 +245,17 @@ URL: https://code.google.com/p/io-2012-slides
 
   <slide>
     <hgroup>
-      <h2>... what about a dsl? Use your power, luke!</h2>
+      <h2>... what about a dsl? Use your force, Luke!</h2>
     </hgroup>
     <article>
       <pre class="prettyprint" data-lang="groovy">
-        @Hospital("""
+        <b>@Hospital("""
           patients {
             patient(firstName: "Hauk", lastName: "Aabel")
             patient(firstName: "Gunnar", lastName: "Haugan")
             patient(firstName: "Egil", lastName: "Hegerberg")
           }
-        """)
+        """)</b>
         class PatientSpec extends GebReportingSpec {
           def "show all existing patients"(){ }
 
@@ -319,7 +275,7 @@ URL: https://code.google.com/p/io-2012-slides
   </hgroup>
 </slide>
 
-  <slide class="thank-you-slide segue nobackground">
+  <slide class="thank-you-slide nobackground fill">
     <article class="flexbox vleft auto-fadein">
       <h2>Thx!</h2>
     </article>
