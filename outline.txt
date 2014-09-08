@@ -1,0 +1,45 @@
+I am thilko and I working for draeger medical.
+Draeger is a medical device manufactor...
+
+Today I would like to talk with you about way web testing is so hard
+and what we can do about it. So why it is so challenging?
+
+Slow: We can execute hundrets of unit test and during the startup time
+of a browser instance. Slower feedback.
+
+Timing issues: Especially in those asynchronous times with websocket
+communications, delayed js interactions we can´t predict when a
+loaded is changed and when it is ready for assert. This leads to
+brittle tests.
+
+Different browers: Hard work to support all those browsers in the
+wild.
+
+Running system with test data: the most challenging one! How to setup
+the system in the correct state? Insert data directly into the db or
+through the application itself? What about malicious data?
+
+Choose your weapons: Fortunately we have tools to handle all those
+freaky scenarios. Tools which goes beyond just selenium webdriver.
+
+Spock: The entry drug for groovy, write your tests in a fancy way.
+
+Spock extensions: Hook into the spock lifecycle
+
+Geb: Library for instrumenting selenium which sits on top of spock.
+
+Finally groovy: the groundwork for all those tools. A dynamic language
+which comes with a lot of handy tools, for example...
+
+Object Graph Builder: an easy way to build object graphs which uses
+the dynamic nature of groovy.
+
+XML, SQL: boring and can get quickly out of hand.
+
+what about a dsl: Define a custom spock extension and place it about
+your complete spec. Everytime a feature is running the content of
+the dsl is taken and run as a script with the ObjectGraphBuilder. The
+spock extension is the glue between your test and your domain of
+application. Works with grails, spring etc.
+
+Let´s have a look into the code!
