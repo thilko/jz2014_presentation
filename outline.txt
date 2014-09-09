@@ -1,10 +1,9 @@
-I am thilko and I working for draeger medical.
-Draeger is a medical device manufactor...
+Hi, I am Thilko and I would like to talk with you about the challenges
+of web testing and what we can do about it.
 
-Today I would like to talk with you about way web testing is so hard
-and what we can do about it. So why it is so challenging?
+So why it is so challenging?
 
-Slow: We can execute hundrets of unit test and during the startup time
+Slow: We can execute hundrets or thousands of unit test and during the startup time
 of a browser instance. Slower feedback.
 
 Timing issues: Especially in those asynchronous times with websocket
